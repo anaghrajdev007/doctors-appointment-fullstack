@@ -13,3 +13,9 @@ PORT = 8080
 DEV_MODE - Development
 MONGO_URL = use your database link
 JWT_SECRET = your Key
+
+5. Set proxy in client inside package.json-
+"proxy": "http://localhost:8080"
+
+6. Run command in terminal-
+npm run dev
