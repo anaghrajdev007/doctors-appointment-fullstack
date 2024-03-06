@@ -11,6 +11,6 @@ router.post('/login', login_controller.loginController);
 router.post('/regester', login_controller.registerController);
 
 //Auth
-router.post('/getUserDatah',authMiddleware, login_controller.authController);
+router.post('/getUserData',authMiddleware, login_controller.authController);
 
 module.exports = router
