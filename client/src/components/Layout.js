@@ -1,15 +1,27 @@
 import React from 'react';
 import '../styles/LayoutStyles.css';
-import { SidebarMenu } from '../Data/data';
-import { Link, useLocation } from 'react-router-dom';
+import { message } from 'antd';
+import { adminMenu, userMenu } from '../Data/data';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const Layout = ({children}) => {
-    const user = useSelector(state => state.user);
-    const location = useLocation();
+const Layout = ({ children }) => {
+    // Adjusted useSelector call to match the nested structure
+    const user = useSelector(state => state.user.user); // Adjusted here
 
-    // Function to determine if the menu item is active
+    const location = useLocation();
+    const navigate = useNavigate(); // For programmatically navigating after logout
+
+    const handleLogout = () => {
+        localStorage.clear();
+        message.success('Logout successful');
+        navigate('/login'); // Redirect to login after logout
+    };
+
     const isActive = (path) => location.pathname === path;
+
+    // Selecting the correct menu based on isAdmin status
+    const SidebarMenu = user?.isAdmin ? adminMenu : userMenu;
 
     return (
         <div className='main'>
@@ -26,6 +38,10 @@ const Layout = ({children}) => {
                                 <Link to={menu.path}>{menu.name}</Link>
                             </div>
                         ))}
+                        <div className="menu-item" onClick={handleLogout}>
+                            <i className="fa-solid fa-right-from-bracket"></i>
+                            <span>Logout</span>
+                        </div>
                     </div>
                 </div>
                 <div className='content'>
@@ -40,6 +56,6 @@ const Layout = ({children}) => {
             </div>
         </div>
     );
-}
+};
 
 export default Layout;

@@ -6,9 +6,10 @@ const HomePage = () => {
 //Logged in user data
   const getUserData = async() =>{
     try{
+      const token = localStorage.getItem('token');
       const res = await axios.post('/api/v1/user/getUserData',{},{
         headers:{
-          Authorization : 'Bearer' + localStorage.getItem('token'),
+          Authorization: `Bearer ${token}`,
         },
       })
     } catch(error){
