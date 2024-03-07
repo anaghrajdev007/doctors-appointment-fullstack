@@ -40,7 +40,7 @@ const Layout = ({ children }) => {
                         ))}
                         <div className="menu-item" onClick={handleLogout}>
                             <i className="fa-solid fa-right-from-bracket"></i>
-                            <span>Logout</span>
+                            <span>LOGOUT</span>
                         </div>
                     </div>
                 </div>
