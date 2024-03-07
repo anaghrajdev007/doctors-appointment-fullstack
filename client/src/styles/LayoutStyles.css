@@ -1,79 +1,120 @@
-.main{
+/* Main layout adjustments */
+.main {
     padding: 10px;
-    height: 100vh;
-    
+    box-sizing: border-box; /* Ensures padding doesn't add to the total width or height */
+    min-height: 100vh; /* Ensures at least full viewport height, adjusts for any additional padding */
 }
-.layout{
+
+/* Flexbox layout for sidebar + content */
+.layout {
     display: flex;
+    flex-wrap: wrap; /* Ensures responsiveness */
 }
-.sidebar{
-    height: 100vh;
-    width: 300px;
+
+/* Sidebar styling */
+.sidebar {
+    flex: 0 0 300px; /* Flex basis set to 300px but doesn't grow or shrink */
+    max-height: calc(100vh - 20px); /* Adjusted for any top and bottom padding in .main */
     border-radius: 5px;
-    background-color: rgb(51, 1, 1);
-    box-shadow: 0 0 2px gray;
+    background-color: #330101; /* Adjusted for readability */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Enhanced for better visibility */
     margin-right: 20px;
     color: white;
+    overflow-y: auto; /* Allows scrolling within the sidebar if content exceeds viewport height */
 }
-.contant{
-    width: 100%;
-    height: 100%;
+
+/* Content styling */
+.content { /* Corrected class name */
+    flex: 1; /* Takes up remaining space */
+    overflow-y: auto; /* Allows scrolling if content exceeds viewport height */
 }
-.header{
+
+/* Header adjustments */
+.header {
     height: 10vh;
     margin-bottom: 20px;
-    box-shadow: 0 0 2px gray;
-    background-color: white;
-    
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #FFFFFF;
 }
-.body{
-    height: 85vh;
-    margin-bottom: 20px;
-    box-shadow: 0 0 2px gray;
-    background-color: white;
+
+/* Body styling for improved readability */
+.body {
+    min-height: 85vh; /* Adjusted to min-height for flexibility */
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px; /* Added padding for internal spacing */
+    box-sizing: border-box;
 }
-.logo h6{
+
+/* Logo and Menu enhancements */
+.logo h6 {
     font-size: 1.5rem;
     text-align: center;
-    margin: 20px 0px;
+    margin: 20px 0;
 }
-.menu{
-    margin-top: 50px;
+
+.menu {
+    margin-top: 20px; /* Adjusted for consistency */
 }
-.menu-item{
-    margin-top: 30px;
+
+.menu-item {
+    margin-top: 20px;
 }
-.menu-item a{
+
+.menu-item a {
     color: white;
     text-decoration: none;
     font-size: 1.2rem;
 }
-.menu-item i{
-    font-size: 1.2rem;
+
+.menu-item i {
     margin: 0 15px;
 }
-.active{
-    background-color: white;
+
+/* Active menu item styling */
+.active {
+    background-color: #FFFFFF;
+    color: #330101; /* Enhanced contrast */
     padding: 10px;
+    border-radius: 5px; /* Added for visual appeal */
 }
-.active a, .active i{
-    color:  rgb(51, 1, 1);
+
+.active a, .active i {
+    color: #330101;
 }
-.header-contant{
+
+/* Header content alignment */
+.header-content { /* Assuming a typo and corrected to .header-content */
     margin: 0 15px;
     display: flex;
     align-items: center;
-    height: 100px;
     justify-content: flex-end;
-
+    height: 100%;
 }
-.header-contant i{
+
+.header-content i, .header-content a {
     margin-right: 20px;
     font-size: 1.2rem;
 }
-.header-contant a{
+
+.header-content a {
     text-decoration: none;
     color: blue;
-    margin: 0 10px;
     text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        flex: 0 0 100%; /* Full width on smaller screens */
+        margin-right: 0;
+        margin-bottom: 20px; /* Adds spacing between sidebar and content on smaller screens */
+    }
+
+    .content {
+        flex: 1;
+    }
+
+    .header, .body {
+        padding: 10px;
+    }
 }
