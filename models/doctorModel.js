@@ -40,11 +40,15 @@ feesPerCunsaltation:{
     type: Number,
     required:[true, 'fees per conversion is required']
 },
+status:{
+    type: String,
+    default: 'prnding'
+},
 timings:{
     type: Object,
     required: [true, 'timings is required']
 }
 }, {timestamps: true});
 
-const doctorModel = mongoose.model('users',doctorSchema);
+const doctorModel = mongoose.model('doctor',doctorSchema);
 module.exports = doctorModel

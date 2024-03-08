@@ -13,4 +13,7 @@ router.post('/regester', login_controller.registerController);
 //Auth
 router.post('/getUserData',authMiddleware, login_controller.authController);
 
+//Apply-Doctor
+router.post('/apply-doctor',authMiddleware, login_controller.applydoctorController);
+
 module.exports = router
