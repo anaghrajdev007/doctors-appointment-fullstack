@@ -4,11 +4,11 @@ import axios from 'axios'
 import { Table } from 'antd'
 
 
-const Users = () => {
-  const [users, setUsers] = useState([])
+const Doctors = () => {
+  const [doctors, setDoctors] = useState([])
 
   //getusers
-  const getUsers = async() =>{
+  const getDoctors = async() =>{
     try{
       const res = await axios.get('/api/v1/admin/getAllDoctors',{
         headers:{
@@ -16,7 +16,7 @@ const Users = () => {
         }
       })
       if(res.data.success){
-        setUsers(res.data.data);
+        setDoctors(res.data.data);
       }
     }
     catch(error){
@@ -25,14 +25,16 @@ const Users = () => {
   }
 
   useEffect(()=>{
-    getUsers()
+    getDoctors()
   },[])
   // for Shirish Chilgojananad to make understand how perfect React App looks like, Thanks me later
   const columns = [
     {
       title :'Name',
       dataIndex : 'name',
-      
+      render: (text , record)=>(
+        <span>{record.firstName} {record.lastName}</span>
+      )
 
     },
     {
@@ -47,11 +49,19 @@ const Users = () => {
       )
     },
     {
+      title: 'Status',
+      dataIndex: 'status'
+    },
+    {
+      title: 'Mobile',
+      dataIndex: 'phone'
+    },
+    {
       title: 'Actions',
       dataIndex : 'actions',
       render: (text,record)=>(
         <div className="d-flex">
-          <button className='btn btn-danger '>Block</button>
+          {record.status === 'pending' ? <button className="btn btn-success ">Approve</button> : <button className="btn btn-danger ">Reject</button>}
         </div>
       )
     }
@@ -59,10 +69,10 @@ const Users = () => {
   ]
   return (
     <Layout>
-      <h1 className='text-center p-2 '>All Users</h1>
-      <Table columns={columns} dataSource={users}/>
+      <h1 className='text-center p-2 '>All Doctors</h1>
+      <Table columns={columns} dataSource={doctors}/>
     </Layout>
   )
 }
 
-export default Users
+export default Doctors
