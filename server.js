@@ -24,6 +24,10 @@ app.use('/api/v1/user', user_data);
 //Admin Pages
 const admin_data = require("./routes/adminRoutes");
 app.use('/api/v1/admin',admin_data);
+
+//Doctor Data
+const doctor_data = require("./routes/doctorRoutes");
+app.use('/api/v1/doctor',doctor_data);
 //Listen
 
 const port = process.env.PORT || 9000;

@@ -20,8 +20,34 @@ const Layout = ({ children }) => {
 
     const isActive = (path) => location.pathname === path;
 
+    //Doctor Menu
+    const doctorMenu = [
+        {
+            name : 'Home',
+            path : '/',
+            icon : "fa-solid fa-house"
+        },
+        {
+            name : 'Appointments',
+            path : '/appointments',
+            icon : "fa-solid fa-list"
+        },
+        
+        {
+            name : 'Profile',
+            path : `/doctor/profile/${user?._id}`,
+            icon : "fa-solid fa-user"
+        },
+       
+    ];
+    //Doctor Menu
+
     // Selecting the correct menu based on isAdmin status
-    const SidebarMenu = user?.isAdmin ? adminMenu : userMenu;
+    const SidebarMenu = user?.isAdmin 
+    ? adminMenu 
+    : user?.isDoctor 
+    ? doctorMenu 
+    : userMenu;
 
     return (
         <div className='main'>
