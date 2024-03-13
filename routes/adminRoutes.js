@@ -12,6 +12,9 @@ router.get('/getAllUsers', authMiddleware,adminController.getAllUsersController 
 
 router.get('/getAllDoctors', authMiddleware,adminController.getAllDoctorsController );
 
+// POST|| CHANGE ACCOUNT STATUS
+router.post('/changeAccountStatus',authMiddleware, adminController.changeAccountStatusController );
+
 
 
 module.exports = router
