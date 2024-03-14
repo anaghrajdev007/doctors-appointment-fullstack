@@ -20,7 +20,28 @@ const getsingledrcontroller = async(req, res) =>{
     }
 }
 
+const updateProfileController = async(req,res) =>{
+    try{
+        const doctor = await doctorModel.findOneAndUpdate({userId: req.body.userId}, req.body)
+        res.status(201).send({
+            success: true,
+            message:"Doctor's Profile Updated",
+            data: doctor
+        })
+    }
+    catch(err){
+        console.log(err)
+        res.status(500).send({
+            success: false,
+            message: "Error happend while updating profile in Controller",
+            err
+
+        });
+    }
+}
+
 
 module.exports = {
-    getsingledrcontroller
+    getsingledrcontroller,
+    updateProfileController
 }

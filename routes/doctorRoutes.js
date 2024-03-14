@@ -7,4 +7,7 @@ const doctorController = require("../controllers/doctorController");
 
 router.post('/getDoctorInfo', authMiddleware , doctorController.getsingledrcontroller)
 
+// POST || UPDATE PROFILE
+router.post('/updateProfile',authMiddleware , doctorController.updateProfileController )
+
 module.exports = router

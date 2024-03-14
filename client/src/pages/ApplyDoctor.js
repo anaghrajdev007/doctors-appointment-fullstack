@@ -21,8 +21,8 @@ const ApplyDoctor = () => {
                 }
             });
             dispatch(hideLoading());
-            if(res.data.success){
-                message.success("Applied for doctor Sucessfully");
+            if(res.data.message){
+                // message.success("Applied for doctor Sucessfully");
                 navigate('/');
             }
             else{
