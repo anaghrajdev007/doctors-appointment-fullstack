@@ -22,4 +22,7 @@ router.post('/apply-doctor',authMiddleware, login_controller.applydoctorControll
 //Delete-Notifications
 router.post('/delete-all-notification',authMiddleware, login_controller.deleteallnotificationController);
 
+//GET ALL DOC || GET
+router.get("/getAllDoctors",authMiddleware , login_controller.getAllDoctorsController ) ;
+
 module.exports = router
