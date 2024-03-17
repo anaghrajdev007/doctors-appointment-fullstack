@@ -5,6 +5,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import { hideLoading, showLoading } from '../redux/features/alertSlice';
 import axios from 'axios';
+import moment from 'moment';
 
 const ApplyDoctor = () => {
     const {user}= useSelector(state => state.user);
@@ -12,28 +13,39 @@ const ApplyDoctor = () => {
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
     //Handle Finish Form
-    const handleFinish = async(values) =>{
-        try{
-            dispatch(showLoading());
-            const res = await axios.post('/api/v1/user/apply-doctor',{...values,userId:user._id},{
-                headers:{
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            dispatch(hideLoading());
-            if(res.data.message){
-                // message.success("Applied for doctor Sucessfully");
-                navigate('/');
-            }
-            else{
-                message.error("Something went wrong");
-            }
-        } catch(e){
-            dispatch(hideLoading());
-            console.log(e);
-            message.error('something went wrong');
+    const handleFinish = async (values) => {
+        try {
+          dispatch(showLoading());
+    
+          // Convert timings to the required format or handle them appropriately if not provided
+          const timings = values.timings ? values.timings.map(time => time.format('HH:mm')) : [];
+    
+          const payload = {
+            ...values,
+            userId: user._id,
+            timings: timings,
+          };
+    
+          const response = await axios.post('/api/v1/user/apply-doctor', payload, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+    
+          dispatch(hideLoading());
+          if (response.data.message) {
+            message.success("Applied for doctor successfully.");
+            navigate('/');
+          } else {
+            message.error("Something went wrong.");
+          }
+        } catch (error) {
+          dispatch(hideLoading());
+          console.error(error);
+          message.error('Something went wrong.');
         }
-    };
+      };
+
   return (
     <Layout>
       <h1 className='text-center'>Apply Doctor</h1>
@@ -109,9 +121,9 @@ const ApplyDoctor = () => {
 
             </Col>
             <Col xs={24} md={24} lg={8}>
-                <Form.Item label="timings" required rules={[{required:true}]} name="timings">
-                    <TimePicker.RangePicker format="HH:mm"/>
-                </Form.Item>
+            <Form.Item label="Timings" required rules={[{ required: true }]} name="timings">
+                            <TimePicker.RangePicker format="HH:mm" />
+                        </Form.Item>
                 
 
             </Col>
