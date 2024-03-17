@@ -25,4 +25,7 @@ router.post('/delete-all-notification',authMiddleware, login_controller.deleteal
 //GET ALL DOC || GET
 router.get("/getAllDoctors",authMiddleware , login_controller.getAllDoctorsController ) ;
 
+//BOOK APPPINTMETS
+router.post('/book-appointments', authMiddleware , login_controller.bookAppointmentsController);
+
 module.exports = router
