@@ -10,4 +10,7 @@ router.post('/getDoctorInfo', authMiddleware , doctorController.getsingledrcontr
 // POST || UPDATE PROFILE
 router.post('/updateProfile',authMiddleware , doctorController.updateProfileController )
 
+//POST || GET SINGLE DOCTOR INFO
+router.post('/getDoctorById', authMiddleware , doctorController.getDoctorByIdController)
+
 module.exports = router
