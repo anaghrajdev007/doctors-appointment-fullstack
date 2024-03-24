@@ -4,6 +4,7 @@ const bcrypt = require ('bcryptjs');
 const jwt = require('jsonwebtoken');
 const doctorModel = require("../models/doctorModel");
 const appointmentModel = require('../models/appointmentModel');
+const moment = require('moment');
 
 
 
@@ -152,6 +153,8 @@ const getAllDoctorsController = async(req,res) =>{
 //BOOK APPOINTMENTS
 const bookAppointmentsController = async(req, res) =>{
     try{
+        req.body.date = moment (req.body.date, 'DD-MM-YYYY').toISOString();
+        req.body.time = moment (req.body.time, 'HH:mm').toISOString();
         req.body.status = 'pending';
         const newAppointment = new appointmentModel(req.body)
         await newAppointment.save();
@@ -174,6 +177,69 @@ const bookAppointmentsController = async(req, res) =>{
     }
 }
 
+//Booking Availablity Controller
+const bookingAvailablityController = async (req, res) => {
+    try {
+        // Assuming dates are provided in DD-MM-YYYY format and times in HH:mm format.
+        // Convert to ISO string considering the time zone, here assuming UTC for simplicity.
+        const date = moment(req.body.date, 'DD-MM-YYYY').utc().startOf('day').toISOString();
+        const fromTime = moment.utc(`${req.body.date} ${req.body.time}`, 'DD-MM-YYYY HH:mm').subtract(1, 'hours').toISOString();
+        const toTime = moment.utc(`${req.body.date} ${req.body.time}`, 'DD-MM-YYYY HH:mm').add(1, 'hours').toISOString();
+        const doctorId = req.body.doctorId;
+
+        // Find appointments within the time range for the specified doctor and date
+        const appointments = await appointmentModel.find({
+            doctorId,
+            date,
+            time: {
+                $gte: fromTime,
+                $lte: toTime
+            }
+        });
+
+        if (appointments.length > 0) {
+            return res.status(200).send({
+                message: 'Appointments not available at this time',
+                availability: false,
+                success: true // Indicates that the operation (checking availability) was successful
+            });
+        } else {
+            return res.status(200).send({
+                message: 'Appointments available',
+                availability: true,
+                success: true
+            });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({
+            success: false,
+            message: 'Error in booking availability controller',
+            error: err.message
+        });
+    }
+};
+
+//Appointment List Controller
+
+const appointmentListController = async(req, res) => {
+    try{
+        const appointment = await appointmentModel.find({userId: req.body.userId})
+        res.status(200).send({
+            success:true,
+            message:"Appointments found successfully",
+            data: appointment
+        })
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send({
+            success: false,
+            message: 'Error in booking availability controller',
+            error: err.message
+        });
+    }
+}
 
 
 module.exports = {
@@ -184,5 +250,7 @@ module.exports = {
     getallnotificationcontroller,
     deleteallnotificationController,
     getAllDoctorsController,
-    bookAppointmentsController
+    bookAppointmentsController,
+    bookingAvailablityController,
+    appointmentListController
 }

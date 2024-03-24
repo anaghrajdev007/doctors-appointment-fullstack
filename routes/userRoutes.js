@@ -28,4 +28,10 @@ router.get("/getAllDoctors",authMiddleware , login_controller.getAllDoctorsContr
 //BOOK APPPINTMETS
 router.post('/book-appointments', authMiddleware , login_controller.bookAppointmentsController);
 
+//Booking Availablity || POST
+router.post('/booking-availablity', authMiddleware , login_controller.bookingAvailablityController);
+
+//Appointment List
+router.get('/user-appointments', authMiddleware , login_controller.appointmentListController);
+
 module.exports = router
